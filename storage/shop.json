@@ -1,0 +1,22 @@
+[
+  {
+    "id"    : "rifle",
+    "name"  : "rifle",
+    "price" : 1500
+  },
+  {
+    "id"    : "desert_eagle",
+    "name"  : "desert_eagle",
+    "price" : 450
+  },
+  {
+    "id"    : "svd",
+    "name"  : "svd",
+    "price" : 2000
+  },
+  {
+    "id"    : "upgrade_kit",
+    "name"  : "upgrade_kit",
+    "price" : 1050
+  }
+]
