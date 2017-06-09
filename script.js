@@ -7,12 +7,12 @@ var templates = {
         +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
         +'</li><br>',
     "inventory":
-        '<li class="item">'
+        '<li class="item" id="{{id}}">'
         +   'weapon:<img src="img/{{name}}.jpg" alt=""><br>'
         +   'price:{{price}}<br>'
         +   'level:{{level}} <br>'
         +   '<input type="button" value="sell" onclick="sell({{id}})">'
-        +   '<input type="button" value="update" onclick="update{{id}}">'
+        +   '<input type="button" value="update" onclick="update({{id}})">'
         +'</li>'
 };
 
@@ -50,6 +50,7 @@ function load_user_info(){
 }
 
 function show_user_info(user_info){
+    $(".inventory").html("");
     $("#money").text(user_info.balance);
     $("#upgrade_kits").text(user_info.upgrade_kits);
     show_items("inventory", user_info.weapons);
@@ -79,13 +80,23 @@ function buy(item_name){
     })[0];
 
     if( user_info.balance > item["price"] ){
-        user_info.weapons.push(item);
-        user_info.balance -= item["price"];
+        if(item["name"] == "upgrade_kit"){
+            user_info.balance -= item["price"];
+            user_info.upgrade_kits++;
+        }else{
+            item["id"] = new Date().getTime();
+            item["level"] = 0;
+            item["price"] = item["price"] - Math.round(item["price"]/100*20);
+            user_info.weapons.push(item);
+            user_info.balance -= item["price"];
+        }
+        show_user_info(user_info);
         localStorage.setItem("user_info", JSON.stringify(user_info));
     }else{
         alert("Not enough money!");
     }
+}
 
-
+function sell(item_id){
 
 }
