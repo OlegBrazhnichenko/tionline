@@ -67,7 +67,7 @@ function createView(template_name, data){
     var params = ["id","name","level", "price"];
     var template = templates[template_name];
     for(var k = 0; k < params.length; k++){
-        template = template.replace(new RegExp("{{"+params[k]+"}}", "g"), data[params[k]] || "");
+        template = template.replace(new RegExp("{{"+params[k]+"}}", "g"), data[params[k]] || 0);
     }
 
     return template;
@@ -98,5 +98,17 @@ function buy(item_name){
 }
 
 function sell(item_id){
+    var user_info = load_user_info();
+    var item = user_info.weapons.filter(function( obj ) {
+        return obj.id == item_id;
+    })[0];
 
+    if(item){
+        user_info.weapons = $.grep(user_info.weapons, function(weapon) {
+            return weapon.id !== item["id"];
+        });
+        user_info.balance += item["price"];
+    }
+    show_user_info(user_info);
+    localStorage.setItem("user_info", JSON.stringify(user_info));
 }
