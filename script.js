@@ -4,7 +4,7 @@ var templates = {
         '<li class="item">'
         +   '<img src="img/{{name}}.jpg" alt=""><br>'
         +   'price:{{price}}<br>'
-        +   '<input type="button" value="buy" onclick="buy({{name}})">'
+        +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
         +'</li><br>',
     "inventory":
         '<li class="item">'
@@ -18,7 +18,7 @@ var templates = {
 
 window.onload = function(){
     load_shop();
-    load_user_info();
+    show_user_info(load_user_info());
 };
 
 function load_shop() {
@@ -44,19 +44,21 @@ function load_user_info(){
                 "weapons":[]
             }
         ))
-    }else{
-        var user_info =JSON.parse(localStorage.getItem("user_info"));
-        $("#money").text(user_info.balance);
-        $("#upgrade_kits").text(user_info.upgrade_kits);
-        show_items("inventory", user_info.weapons);
     }
+
+    return JSON.parse(localStorage.getItem("user_info"));
+}
+
+function show_user_info(user_info){
+    $("#money").text(user_info.balance);
+    $("#upgrade_kits").text(user_info.upgrade_kits);
+    show_items("inventory", user_info.weapons);
 }
 
 function show_items(destination, response){
     response = response || [];
     for(var i = 0; i < response.length; i++){
         $("."+destination).append(createView(destination, response[i]));
-        console.log("added");
     }
 }
 
@@ -68,4 +70,22 @@ function createView(template_name, data){
     }
 
     return template;
+}
+
+function buy(item_name){
+    var user_info = load_user_info();
+    var item = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
+        return obj.name == item_name;
+    })[0];
+
+    if( user_info.balance > item["price"] ){
+        user_info.weapons.push(item);
+        user_info.balance -= item["price"];
+        localStorage.setItem("user_info", JSON.stringify(user_info));
+    }else{
+        alert("Not enough money!");
+    }
+
+
+
 }
