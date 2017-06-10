@@ -135,7 +135,7 @@ function upgrade(item_id){
 
     if (user_info.upgrade_kits >= 1){
         user_info.upgrade_kits--;
-        if (Math.floor(Math.random()*100) < 63 || item["level"] < 3){
+        if (Math.floor(Math.random()*100) < 63 || item["level"] < 2){
             var default_price = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
                 return obj.name == item["name"];
             })[0].price;
