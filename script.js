@@ -8,7 +8,7 @@ var templates = {
         +'</li><br>',
     "inventory":
         '<li class="item" id="{{id}}">'
-        +   'weapon:<img src="img/{{name}}.jpg" alt=""><br>'
+        +   '<img src="img/{{name}}.jpg" alt=""><br>'
         +   'price:{{price}}<br>'
         +   'level:{{level}} <br>'
         +   '<input type="button" value="sell" onclick="sell({{id}})">'
@@ -53,7 +53,7 @@ function load_user_info(){
     if(!localStorage.getItem("user_info")){
         localStorage.setItem("user_info",JSON.stringify(
             {
-                "balance":10000,
+                "balance": 100000,
                 "upgrade_kits":0,
                 "weapons":[]
             }
