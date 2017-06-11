@@ -1,0 +1,9 @@
+html{
+    min-height: 100%;
+}
+body{
+    background-image: url(/img/locations/loc_outpost.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
