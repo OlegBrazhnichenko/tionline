@@ -1,11 +1,17 @@
 
 var templates = {
     "shop":
-        '<li class="item">'
-        +   '<img src="img/{{name}}.jpg" alt=""><br>'
-        +   'price:{{price}}<br>'
-        +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
-        +'</li><br>',
+        // '<li class="item">'
+        // +   '<img src="img/{{name}}.jpg" alt=""><br>'
+        // +   'price:{{price}}<br>'
+        // +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
+        // +'</li>',
+     '<tr class="item">'
+        +'<td><img src="img/{{name}}.jpg" alt=""></td>'
+        +'<td>{{price}}</td>'
+        +'<td><input type="number" min="1" value="1"></td>'
+        +'<td><input type="button" value="buy" onclick=buy("{{name}}")></td>'
+    +'</tr>',
     "inventory":
         '<li class="item" id="{{id}}">'
         +   '<img src="img/{{name}}.jpg" alt=""><br>'
