@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
-    <div class="stuff">
-        money: <span id="money"></span><br>
-        update kits: <span id="upgrade_kits"></span>
+    <div class="header">
+        <img src="img/credits.png" style="vertical-align: middle; height: 22px;" alt=""> <span id="money"></span>
+        <img style="vertical-align:middle" src="img/upgrade_btn.png" alt=""><span id="upgrade_kits"></span>
     </div>
-    <h1>shop</h1>
-    <ul class="shop">
+    <div class="content">
+        <div class="container">
+            <h1>inventory</h1>
+            <ul class="inventory">
 
-    </ul>
-    <h1>inventory</h1>
-    <ul class="inventory">
+            </ul>
 
-    </ul>
+            <table class="shop_table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>count</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="shop">
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </body>
 </html>
