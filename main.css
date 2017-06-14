@@ -89,6 +89,21 @@ body{
     transition: 0.2s;
 
 }
+.modal{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width:50px;
+
+}
+.modal input[type="button"]:first-child{
+    border-bottom: 0;
+}
+.modal input[type="button"]{
+    width: 110px;
+}
 
 .item input[type="number"]:hover{
     background-color: rgba(255,255,255,0.1);
