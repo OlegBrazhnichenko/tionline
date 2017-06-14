@@ -1,17 +1,11 @@
 
 var templates = {
     "shop":
-        // '<li class="item">'
-        // +   '<img src="img/{{name}}.jpg" alt=""><br>'
-        // +   'price:{{price}}<br>'
-        // +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
-        // +'</li>',
      '<tr class="item">'
         +'<td><img src="img/{{name}}.jpg" alt=""><div class="level">{{level}}</div></td>'
         +'<td>{{price}}</td>'
-        +''
         +'<td><input type="number" min="1" value="1"></td>'
-        +'<td><input type="button" value="buy" onclick=buy("{{name}}")></td>'
+        +'<td><input type="button" value="buy" onclick=buy("{{id}}")></td>'
     +'</tr>',
     "inventory":
         '<div class="item" id="{{id}}">'
@@ -92,14 +86,13 @@ function createView(template_name, data){
     if($("<div>"+template+"</div>").find(".level")[0].innerHTML == "0"){
         template = template.replace('<div class="level">0</div>',"");
     }
-    console.log(template);
     return template;
 }
 
-function buy(item_name){
+function buy(id){
     var user_info = load_user_info();
     var item = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
-        return obj.name == item_name;
+        return obj.id == id;
     })[0];
 
     if( user_info.balance > item["price"] ){
@@ -107,8 +100,9 @@ function buy(item_name){
             user_info.balance -= item["price"];
             user_info.upgrade_kits++;
         }else{
+            console.log(item);
             item["id"] = new Date().getTime();
-            item["level"] = 0;
+            
             item["price"] = Math.round(item["price"]/100*80);
             user_info.weapons.push(item);
             user_info.balance -= item["price"];
