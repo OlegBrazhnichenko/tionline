@@ -8,7 +8,7 @@ var templates = {
         +'<td><input type="button" value="buy" onclick=buy("{{id}}")></td>'
     +'</tr>',
     "inventory":
-        '<div class="item" id="{{id}}">'
+        '<div class="item" id="{{id}}" onclick="show_details(event,{{id}})">'
         +   '<img src="img/{{name}}.jpg" alt="">'
         +   '<input type="hidden" value="{{price}}">'
         +   '<div class="level">{{level}}</div>'
@@ -62,6 +62,40 @@ function load_user_info(){
     return JSON.parse(localStorage.getItem("user_info"));
 }
 
+function show_details(event,item_id){
+    var context_menu = $(".modal");
+    context_menu.show();
+
+    var user_info = load_user_info();
+    var item = user_info.weapons.filter(function( obj ) {
+        return obj.id == item_id;
+    })[0];
+
+    var top = event.clientY;
+    var left = event.clientX;
+
+    context_menu.css("top",top+$(window).scrollTop()+"px");
+    context_menu.css("left",left+"px");
+
+    context_menu.html('<input type="button" value="sell('+item['price']+')" onclick="sell('+item_id+')">'+
+                        '<input type="button" value="upgrade" onclick="upgrade('+item_id+')">');
+    
+    $(".inventory_items").scroll(function(){
+        hide_details();
+    });
+    $("body").click(function(event){
+        if(event.target.parentNode.classList[0]!= "item"){
+            hide_details()
+        }
+    })
+}
+function hide_details(){
+    $(".modal").hide();
+    $(".inventory_items").off("scroll");
+    $("body").off("click");
+}
+
+
 function show_user_info(user_info){
     $(".inventory_items").html("");
     $("#money").text(user_info.balance);
@@ -103,6 +137,7 @@ function buy(id){
             user_info.balance -= item["price"];
             var prices = JSON.parse(localStorage.getItem("prices"));
             item["id"] = new Date().getTime();
+            item["level"] = item["level"]||0;
             item["price"] = item["price"]/100*80 + ((1050*item["level"])||0) + ((prices[item["level"]])||0);
             user_info.weapons.push(item);
         }
