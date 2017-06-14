@@ -62,7 +62,6 @@ function load_user_info(){
     return JSON.parse(localStorage.getItem("user_info"));
 }
 
-
 function show_user_info(user_info){
     $(".inventory_items").html("");
     $("#money").text(user_info.balance);
@@ -103,9 +102,8 @@ function buy(id){
         }else{
             user_info.balance -= item["price"];
             var prices = JSON.parse(localStorage.getItem("prices"));
-
             item["id"] = new Date().getTime();
-            item["price"] = item["price"]/100*80 + 1050*item["level"] + prices[item["level"]];
+            item["price"] = item["price"]/100*80 + ((1050*item["level"])||0) + ((prices[item["level"]])||0);
             user_info.weapons.push(item);
         }
         show_user_info(user_info);
