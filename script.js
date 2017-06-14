@@ -172,8 +172,8 @@ function upgrade(item_id){
 
     if (user_info.upgrade_kits >= 1){
         user_info.upgrade_kits--;
-        // if (Math.floor(Math.random()*100) < 63 || item["level"] < 2){
-        if (true){
+        if (Math.floor(Math.random()*100) < 63 || item["level"] < 2){
+            var audio = new Audio('/sounds/success.mp3');
             var default_price = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
                 return obj.name == item["name"];
             })[0].price;
@@ -181,7 +181,6 @@ function upgrade(item_id){
             $.each(user_info.weapons, function() {
                 if (this.id == item["id"]) {
                     this.level++;
-
                     this.price = default_price/100*80 + 1050*this.level + prices[this.level];
 
                     return false;
@@ -190,10 +189,12 @@ function upgrade(item_id){
                 return true;
             });
         }else{
+            var audio = new Audio('/sounds/fault.mp3');
             user_info.weapons = $.grep(user_info.weapons, function(weapon) {
                 return weapon.id !== item["id"];
             });
         }
+        audio.play();
         show_user_info(user_info);
         localStorage.setItem("user_info", JSON.stringify(user_info));
     }else{
