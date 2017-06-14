@@ -62,6 +62,7 @@ function load_user_info(){
     return JSON.parse(localStorage.getItem("user_info"));
 }
 
+
 function show_user_info(user_info){
     $(".inventory_items").html("");
     $("#money").text(user_info.balance);
@@ -100,12 +101,12 @@ function buy(id){
             user_info.balance -= item["price"];
             user_info.upgrade_kits++;
         }else{
-            console.log(item);
-            item["id"] = new Date().getTime();
-            
-            item["price"] = Math.round(item["price"]/100*80);
-            user_info.weapons.push(item);
             user_info.balance -= item["price"];
+            var prices = JSON.parse(localStorage.getItem("prices"));
+
+            item["id"] = new Date().getTime();
+            item["price"] = item["price"]/100*80 + 1050*item["level"] + prices[item["level"]];
+            user_info.weapons.push(item);
         }
         show_user_info(user_info);
         localStorage.setItem("user_info", JSON.stringify(user_info));
@@ -138,7 +139,8 @@ function upgrade(item_id){
 
     if (user_info.upgrade_kits >= 1){
         user_info.upgrade_kits--;
-        if (Math.floor(Math.random()*100) < 63 || item["level"] < 2){
+        // if (Math.floor(Math.random()*100) < 63 || item["level"] < 2){
+        if (true){
             var default_price = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
                 return obj.name == item["name"];
             })[0].price;
