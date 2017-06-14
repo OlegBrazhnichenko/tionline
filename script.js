@@ -7,19 +7,18 @@ var templates = {
         // +   '<input type="button" value="buy" onclick=buy("{{name}}")>'
         // +'</li>',
      '<tr class="item">'
-        +'<td><img src="img/{{name}}.jpg" alt=""></td>'
+        +'<td><img src="img/{{name}}.jpg" alt=""><div class="level">{{level}}</div></td>'
         +'<td>{{price}}</td>'
+        +''
         +'<td><input type="number" min="1" value="1"></td>'
         +'<td><input type="button" value="buy" onclick=buy("{{name}}")></td>'
     +'</tr>',
     "inventory":
-        '<li class="item" id="{{id}}">'
-        +   '<img src="img/{{name}}.jpg" alt=""><br>'
-        +   'price:{{price}}<br>'
-        +   'level:{{level}} <br>'
-        +   '<input type="button" value="sell" onclick="sell({{id}})">'
-        +   '<input type="button" value="update" onclick="upgrade({{id}})">'
-        +'</li>'
+        '<div class="item" id="{{id}}">'
+        +   '<img src="img/{{name}}.jpg" alt="">'
+        +   '<input type="hidden" value="{{price}}">'
+        +   '<div class="level">{{level}}</div>'
+        +'</div>'
 };
 
 window.onload = function(){
@@ -70,7 +69,7 @@ function load_user_info(){
 }
 
 function show_user_info(user_info){
-    $(".inventory").html("");
+    $(".inventory_items").html("");
     $("#money").text(user_info.balance);
     $("#upgrade_kits").text(user_info.upgrade_kits);
     show_items("inventory", user_info.weapons);
@@ -79,7 +78,7 @@ function show_user_info(user_info){
 function show_items(destination, response){
     response = response || [];
     for(var i = 0; i < response.length; i++){
-        $("."+destination).append(createView(destination, response[i]));
+        $("."+destination+"_items").append(createView(destination, response[i]));
     }
 }
 
@@ -90,6 +89,10 @@ function createView(template_name, data){
         template = template.replace(new RegExp("{{"+params[k]+"}}", "g"), data[params[k]] || 0);
     }
 
+    if($("<div>"+template+"</div>").find(".level")[0].innerHTML == "0"){
+        template = template.replace('<div class="level">0</div>',"");
+    }
+    console.log(template);
     return template;
 }
 
