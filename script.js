@@ -4,7 +4,7 @@ var templates = {
      '<tr class="item">'
         +'<td><img src="img/{{name}}.jpg" alt=""><div class="level">{{level}}</div></td>'
         +'<td>{{price}}</td>'
-        +'<td><input type="number" min="1" value="1"></td>'
+        +'<td><input type="number" min="1" value="1" class="{{id}}"></td>'
         +'<td><input type="button" value="buy" onclick=buy("{{id}}")></td>'
     +'</tr>',
     "inventory":
@@ -128,21 +128,28 @@ function buy(id){
     var item = JSON.parse(localStorage.getItem("shop")).filter(function( obj ) {
         return obj.id == id;
     })[0];
+    var count = $("."+id)[0].value;
+    if(!(Number.isInteger(Number(count)) && count > 0)){
+        alert("Please enter correct value");
 
-    if( user_info.balance > item["price"] ){
-        if(item["name"] == "upgrade_kit"){
-            user_info.balance -= item["price"];
-            user_info.upgrade_kits++;
-        }else{
-            user_info.balance -= item["price"];
-            var prices = JSON.parse(localStorage.getItem("prices"));
-            item["id"] = new Date().getTime();
-            item["level"] = item["level"]||0;
-            item["price"] = item["price"]/100*80 + ((1050*item["level"])||0) + ((prices[item["level"]])||0);
-            user_info.weapons.push(item);
+        return;
+    }
+    if( user_info.balance > item["price"]*count ){
+        user_info.balance -= item["price"]*count;
+        for(var i = 0; i < count; i++){
+            if(item["name"] == "upgrade_kit"){
+                user_info.upgrade_kits++;
+            }else{
+                var prices = JSON.parse(localStorage.getItem("prices"));
+                item["id"] = new Date().getTime();
+                item["level"] = item["level"]||0;
+                item["price"] = item["price"]/100*80 + ((1050*item["level"])||0) + ((prices[item["level"]])||0);
+                user_info.weapons.push(item);
+
+            }
+            show_user_info(user_info);
+            localStorage.setItem("user_info", JSON.stringify(user_info));
         }
-        show_user_info(user_info);
-        localStorage.setItem("user_info", JSON.stringify(user_info));
     }else{
         alert("Not enough money!");
     }
