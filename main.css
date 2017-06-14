@@ -45,6 +45,7 @@ body{
 .inventory_items .item{
     display: inline-block;
     margin: 2px 5px;
+    cursor: pointer;
 }
 .title{
     font-family: arial, sans-serif;
@@ -54,15 +55,21 @@ body{
 }
 
 .shop{
-    margin-top: 4px;
+
     vertical-align:top;
     display: inline-block;
     color: #8A966C;
+
+}
+.shop_items{
     background: rgba(0, 0, 0, 0.5);
-    min-height: 338px;
-    max-height: 338px;
-    min-width: 250px;
-    max-width: 250px;
+}
+.shop thead, .shop tbody{
+    display: block;
+}
+.shop tbody{
+    min-height: 311px;
+    max-height: 311px;
     overflow: auto;
 }
 
